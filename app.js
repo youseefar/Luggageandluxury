@@ -739,15 +739,61 @@ newInvoiceButton.addEventListener(
 
 function loadHtml2Canvas() {
 
-  return new Promise(
-    function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
 
-      if (window.html2canvas) {
+    if (window.html2canvas) {
+      resolve();
+      return;
+    }
 
-        resolve();
+    const urls = [
+      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+      "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+    ];
 
+    let current = 0;
+
+    function tryNext() {
+
+      if (current >= urls.length) {
+        reject(
+          new Error("Image generator could not be loaded.")
+        );
         return;
       }
+
+      const script =
+        document.createElement("script");
+
+      script.src = urls[current];
+
+      script.onload = function () {
+
+        if (window.html2canvas) {
+          resolve();
+        } else {
+          current++;
+          tryNext();
+        }
+
+      };
+
+      script.onerror = function () {
+
+        current++;
+        tryNext();
+
+      };
+
+      document.head.appendChild(script);
+
+    }
+
+    tryNext();
+
+  });
+
+}
 
 
       const script =
