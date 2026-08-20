@@ -1,0 +1,9 @@
+{
+  "name": "Luggage & Luxury Affairs",
+  "short_name": "LLA Invoicing",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171717",
+  "theme_color": "#a87816",
+  "icons": [...]
+}
