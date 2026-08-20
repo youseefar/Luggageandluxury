@@ -984,5 +984,113 @@ document.head.appendChild(style);
 
 // Start the app
 init();
+// ... (all your existing code above) ...
 
+// ============================
+// INITIALIZE APP
+// ============================
+
+function init() {
+    setDocumentType('invoice');
+    setPaymentMethod('Bank Transfer');
+    renderItems();
+    updateTotals();
+    switchTab('form');
+    
+    window.addEventListener('beforeunload', () => {
+        if (state.currentSlip) {
+            upsertSlip(state.currentSlip);
+        }
+    });
+    
+    console.log('🏷️ Luggage & Luxury Affairs v2.0');
+    console.log('📦 Ready to create invoices and loan slips!');
+}
+
+// Add animation styles
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideUp {
+        from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(20px); opacity: 0; }
+    }
+    .toast {
+        animation: slideUp 0.3s ease;
+    }
+`;
+document.head.appendChild(style);
+
+// Start the app
+init();
+
+// ============================
+// PWA - INSTALL PROMPT (ADD THIS AT THE VERY END)
+// ============================
+
+let deferredPrompt;
+let installButton = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  if (!installButton) {
+    installButton = document.createElement('button');
+    installButton.className = 'button secondary install-app';
+    installButton.textContent = '📲 Install App';
+    installButton.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      animation: bounceIn 0.5s ease;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+    `;
+    
+    installButton.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      const result = await deferredPrompt.prompt();
+      console.log('[PWA] Install result:', result);
+      installButton.style.display = 'none';
+      deferredPrompt = null;
+    });
+    
+    document.body.appendChild(installButton);
+  }
+  
+  installButton.style.display = 'flex';
+  installButton.style.alignItems = 'center';
+  installButton.style.gap = '8px';
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('[PWA] App installed!');
+  if (installButton) installButton.style.display = 'none';
+});
+
+// Add bounce animation style if not exists
+if (!document.querySelector('#pwa-styles')) {
+  const pwaStyle = document.createElement('style');
+  pwaStyle.id = 'pwa-styles';
+  pwaStyle.textContent = `
+    @keyframes bounceIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .install-app {
+      animation: bounceIn 0.5s ease;
+    }
+  `;
+  document.head.appendChild(pwaStyle);
+        }
     
