@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#a87816">
+
+  <title>Luggage & Luxury Affairs</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+
+      <div class="logo">
+        <img
+          src="logo.png"
+          alt="Luggage & Luxury Affairs"
+        >
+      </div>
+
+      <div>
+        <h1>Luggage & Luxury Affairs</h1>
+
+        <p>
+          Where Luxury and Affordability Meet
+        </p>
+      </div>
+
+    </header>
+
+
+    <main>
+
+      <!-- VIEW TABS -->
+
+      <div class="view-tabs">
+
+        <button
+          type="button"
+          class="view-tab active"
+          data-view="form"
+        >
+          + New
+        </button>
+
+
+        <button
+          type="button"
+          class="view-tab"
+          data-view="history"
+        >
+          📋 History
+        </button>
+
+      </div>
+
+
+      <!-- =========================
+           INVOICE FORM
+      ========================== -->
+
+      <section id="invoiceForm">
+
+        <div class="title">
+          <span id="formLabel">INVOICE</span>
+          <h2 id="formHeading">Create New Invoice</h2>
+        </div>
+
+
+        <!-- DOCUMENT TYPE -->
+
+        <div class="card">
+
+          <h3>Document Type</h3>
+
+          <div class="doctype-buttons">
+
+            <button
+              type="button"
+              class="doctype active"
+              data-type="invoice"
+            >
+              🧾 Invoice (Paid)
+            </button>
+
+
+            <button
+              type="button"
+              class="doctype"
+              data-type="loan"
+            >
+              🤝 Loan / IOU
+            </button>
+
+          </div>
+
+
+          <div id="dueDateWrap" class="hidden">
+
+            <label>
+              Due Date
+              <small>When it should be returned or paid</small>
+            </label>
+
+            <input
+              type="date"
+              id="dueDate"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- CUSTOMER -->
+
+        <div class="card">
+
+          <h3>Customer Information</h3>
+
+          <label>
+            Customer Name
+            <small>Optional</small>
+          </label>
+
+          <input
+            type="text"
+            id="customerName"
+            placeholder="Enter customer name"
+          >
+
+
+          <label>
+            Phone Number
+            <small>Optional</small>
+          </label>
+
+          <input
+            type="tel"
+            id="customerPhone"
+            placeholder="Enter phone number"
+          >
+
+        </div>
+
+
+        <!-- ITEMS -->
+
+        <div class="card">
+
+          <h3 id="itemsCardTitle">Add Items</h3>
+
+          <label>Item Name</label>
+
+          <input
+            type="text"
+            id="itemName"
+            placeholder="e.g. Glass Cup"
+          >
+
+
+          <div class="two-columns">
+
+            <div>
+
+              <label>Quantity</label>
+
+              <input
+                type="number"
+                id="itemQuantity"
+                value="1"
+                min="1"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label>Unit Price</label>
+
+              <input
+                type="number"
+                id="itemPrice"
+                placeholder="0"
+                min="0"
+              >
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            id="addItem"
+            class="button primary"
+          >
+            + Add Item
+          </button>
+
+
+          <div
+            id="itemList"
+            class="item-list"
+          >
+
+            <div class="empty">
+              No items added yet.
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- TOTALS -->
+
+        <div class="card totals">
+
+          <div class="row">
+
+            <span>Subtotal</span>
+
+            <strong id="subtotal">
+              ₦0
+            </strong>
+
+          </div>
+
+
+          <div class="row discount-row">
+
+            <span>Discount</span>
+
+            <input
+              type="number"
+              id="discount"
+              placeholder="0"
+              min="0"
+            >
+
+          </div>
+
+
+          <div class="line"></div>
+
+
+          <div class="row total">
+
+            <span id="formTotalLabel">Total</span>
+
+            <strong id="total">
+              ₦0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <div class="card">
+
+          <h3>Payment Method</h3>
+
+          <div class="payment-buttons">
+
+            <button
+              type="button"
+              class="payment active"
+              data-method="Bank Transfer"
+            >
+              🏦 Bank Transfer
+            </button>
+
+
+            <button
+              type="button"
+              class="payment"
+              data-method="POS"
+            >
+              💳 POS
+            </button>
+
+
+            <button
+              type="button"
+              class="payment"
+              data-method="Cash"
+            >
+              💵 Cash
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- PREVIEW -->
+
+        <button
+          type="button"
+          id="previewButton"
+          class="button preview"
+        >
+          Preview →
+        </button>
+
+      </section>
+
+
+
+      <!-- =========================
+           INVOICE PREVIEW
+      ========================== -->
+
+      <section
+        id="previewSection"
+        class="hidden"
+      >
+
+        <div class="preview-header">
+
+          <button
+            type="button"
+            id="backButton"
+            class="back"
+          >
+            ← Edit
+          </button>
+
+          <h2>
+            Preview
+          </h2>
+
+        </div>
+
+
+        <!-- INVOICE PAPER -->
+
+        <div
+          id="invoice"
+          class="invoice"
+        >
+
+
+          <!-- BUSINESS HEADER -->
+
+          <div class="invoice-top">
+
+            <div class="invoice-logo">
+
+              <img
+                src="logo.png"
+                alt="Luggage & Luxury Affairs"
+              >
+
+            </div>
+
+
+            <div class="invoice-business">
+
+              <h2>
+                LUGGAGE & LUXURY AFFAIRS
+              </h2>
+
+
+              <p>
+                WHERE LUXURY AND AFFORDABILITY MEET
+              </p>
+
+
+              <p>
+                No. 11 & 12 Asada Plaza,<br>
+                Behind A•Y Maikifi Filling Station,<br>
+                Maiduguri Road, Kano.
+              </p>
+
+
+              <p>
+                08032013137 · 09075475562
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- LOAN BADGE -->
+
+          <div
+            id="loanBadge"
+            class="loan-badge hidden"
+          >
+            ⚠ ITEMS ON LOAN — NOT YET PAID
+          </div>
+
+
+          <!-- INVOICE HEADER -->
+
+          <div class="invoice-heading">
+
+            <h1 id="invoiceTypeHeading">
+              INVOICE
+            </h1>
+
+
+            <div>
+
+              <p>
+                <span id="invoiceNoLabel">Invoice No:</span>
+                <strong id="invoiceNumber">
+                  INV-000001
+                </strong>
+              </p>
+
+
+              <p>
+                Date:
+                <strong id="invoiceDate"></strong>
+              </p>
+
+
+              <p
+                id="invoiceDueDateRow"
+                class="hidden"
+              >
+                Due:
+                <strong id="invoiceDueDate"></strong>
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- CUSTOMER -->
+
+          <div
+            id="customerDetails"
+            class="customer-details"
+          ></div>
+
+
+
+          <!-- ITEMS TABLE -->
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Item
+                </th>
+
+                <th>
+                  Qty
+                </th>
+
+                <th>
+                  Price
+                </th>
+
+                <th>
+                  Total
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="invoiceItems"
+            ></tbody>
+
+          </table>
+
+
+
+          <!-- TOTALS -->
+
+          <div class="invoice-totals">
+
+            <div>
+
+              <span>
+                Subtotal
+              </span>
+
+              <strong id="invoiceSubtotal">
+                ₦0
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Discount
+              </span>
+
+              <strong id="invoiceDiscount">
+                ₦0
+              </strong>
+
+            </div>
+
+
+            <div class="grand">
+
+              <span id="grandTotalLabel">
+                TOTAL
+              </span>
+
+              <strong id="invoiceTotal">
+                ₦0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- PAYMENT INFORMATION -->
+
+          <div class="payment-info">
+
+            <h3>
+              Payment Information
+            </h3>
+
+
+            <p>
+              Payment Method:
+              <strong id="invoicePayment">
+                Bank Transfer
+              </strong>
+            </p>
+
+
+            <p>
+              Bank:
+              <strong>
+                Moniepoint
+              </strong>
+            </p>
+
+
+            <p>
+              Account Name:
+              <strong>
+                Usman Salamatu
+              </strong>
+            </p>
+
+
+            <p>
+              Account Number:
+              <strong>
+                5214643891
+              </strong>
+            </p>
+
+          </div>
+
+
+
+          <!-- SLIP ID -->
+
+          <div class="slip-id-row">
+            Slip ID: <strong id="invoiceSlipId"></strong>
+          </div>
+
+
+
+          <!-- FOOTER -->
+
+          <div class="thank-you">
+
+            <strong id="thankYouTitle">
+              Thank you for your patronage.
+            </strong>
+
+            <p id="thankYouSubtitle">
+              Please make payment using
+              the account details above.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="actions">
+
+          <button
+            type="button"
+            class="button primary"
+            id="newInvoice"
+          >
+            + New Invoice
+          </button>
+
+
+          <button
+            type="button"
+            class="button danger hidden"
+            id="deleteSlipButton"
+          >
+            🗑 Delete Slip
+          </button>
+
+
+          <button
+            type="button"
+            class="button secondary"
+            id="shareButton"
+          >
+            Share
+          </button>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =========================
+           HISTORY
+      ========================== -->
+
+      <section
+        id="historySection"
+        class="hidden"
+      >
+
+        <div class="title">
+          <span>RECORDS</span>
+          <h2>Saved Slips</h2>
+        </div>
+
+
+        <div class="card">
+
+          <label>Search</label>
+
+          <input
+            type="text"
+            id="historySearch"
+            placeholder="Search by Slip ID, No., or customer"
+          >
+
+        </div>
+
+
+        <div
+          id="historyList"
+          class="history-list"
+        >
+
+          <div class="empty">
+            No slips saved yet.
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+      Luggage & Luxury Affairs
+    </footer>
+
+  </div>
+
+
+
+  <script src="app.js"></script>
+
+</body>
+  </html>
+            
