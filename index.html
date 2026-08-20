@@ -8,13 +8,10 @@
   <title>Luggage & Luxury Affairs</title>
 
   <link rel="stylesheet" href="style.css">
-  <!-- PWA Meta Tags -->
+<!-- In the <head> section -->
 <link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="LLA Invoicing">
-<link rel="apple-touch-icon" href="icons/icon-192x192.png">
 <meta name="theme-color" content="#a87816">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 
 <body>
@@ -711,13 +708,10 @@
 
 
   <script src="app.js"></script>
-  <!-- PWA - Register Service Worker -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('[PWA] Service Worker registered!'))
-        .catch((error) => console.error('[PWA] Registration failed:', error));
+      navigator.serviceWorker.register('/sw.js');
     });
   }
 </script>
